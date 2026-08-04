@@ -1,0 +1,14 @@
+[project]
+name = "automacao-meta"
+version = "0.1.0"
+description = "Automação para baixar formulários do Meta e gerar novos leads."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pandas",
+    "playwright",
+    "openpyxl",
+]
+
+[project.scripts]
+automacao-meta = "main:main"
