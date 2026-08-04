@@ -11,20 +11,6 @@ def run(playwright: Playwright) -> None:
     # aguarda a autenticação do usuário manualmente
     input("Pressione Enter após autenticar manualmente...")
 
-
-    # with page.expect_popup() as page1_info:
-    #     page.get_by_role("button", name="Continuar com o Facebook").click()
-    # page1 = page1_info.value
-    # page1.get_by_role("textbox", name="Email ou número de celular").click()
-    # page1.get_by_role("textbox", name="Email ou número de celular").fill("31971045167")
-    # page1.get_by_role("textbox", name="Email ou número de celular").press("Tab")
-    # page1.get_by_role("textbox", name="Senha").fill("163254917")
-    # page1.get_by_role("textbox", name="Senha").press("Enter")
-    # page1.get_by_role("button", name="Entrar").click()
-    # page1.get_by_role("button", name="Continuar").click()
-    # page1.goto("https://business.facebook.com/business/unifiedfblogin/callback/?next=https%3A%2F%2Fbusiness.facebook.com%2F%3Fnav_ref%3Dbiz_unified_f3_login_page_to_mbs%26biz_login_source%3Dbiz_unified_f3_fb_login_button%26join_id%3D0cf430c1-fb00-41af-b5ab-0f4a7ccbef74&f3_request_id=cbicdidjicecfdfhigcmpjambkhbiglipjlgifem&full_page_redirect=0")
-    # page1.close()
-    # page.goto("https://business.facebook.com/latest/home?nav_ref=biz_unified_f3_login_page_to_mbs&business_id=928947610840031&asset_id=104273922324738")
     page.get_by_role("link", name="Todas as ferramentas").click()
     page.get_by_text("Formulários instantâneos").nth(1).click()
 
