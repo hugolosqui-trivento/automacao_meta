@@ -26,8 +26,8 @@ def run(playwright: Playwright) -> None:
     for i in range(botoes_baixar.count()):
         botoes_baixar.nth(i).click()
     # page.get_by_role("button", name="Baixar").first.click()
-        page.get_by_role("button", name="Baixar por intervalo de datas").click()
-        page.locator("button").filter(has_text="Baixar").click()
+        page.get_by_role("button", name="Baixar novos leads").click()
+        # page.locator("button").filter(has_text="Baixar").click()
         with page.expect_download() as download_info:
             page.get_by_role("link", name="CSV").click()
         download = download_info.value
