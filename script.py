@@ -40,7 +40,7 @@ def run(playwright: Playwright) -> None:
             page.get_by_role("link", name="CSV").click()
         download = download_info.value
         # esperar até que o download seja concluído
-        download.wait_for_completion()
+        # download.wait_for_completion()
         caminho_download = 'datasets'
 
         download.save_as(f"{caminho_download}/{download.suggested_filename}")
