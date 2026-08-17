@@ -1,53 +1,172 @@
+from __future__ import annotations
+
+import re
+import unicodedata
+from pathlib import Path
+
 import pandas as pd
-import os
-
-# iterar sobre os arquivos CSV baixados e ler cada um deles
-dfs = []
-caminho_diretorio = 'datasets'
-arquivos_csv = [f for f in os.listdir(caminho_diretorio) if f.endswith('.csv')]
-print(f"Lendo {len(arquivos_csv)} arquivos:")
 
 
-for arquivo in arquivos_csv:
-    caminho_arquivo = os.path.join(caminho_diretorio, arquivo)
-    
-    df = pd.read_csv(caminho_arquivo, sep = '\t', encoding = 'utf-16')
-    dfs.append(df)
-df = pd.concat(dfs, ignore_index=True)
-
-
-dicionário_colunas = {
-    
-    'created_time': 'Criado em',
-    'ad_id': 'ID Anúncio',
-    'ad_name': 'Nome Anúncio',
-    'adset_id': 'ID Conjunto de Anúncios',
-    'adset_name': 'Nome do Conjunto de Anúncios',
-    'campaign_id': 'ID da Campanha',
-    'campaign_name': 'Nome da Campanha',
-    'form_id': 'ID do Formulário',
-    'form_name': 'Nome do Formulário',
-    'is_organic': 'É Orgânico',
-    'platform': 'Plataforma',
-    'full_name': 'Nome Completo',
-    'email': 'E-mail',
-    'número_do_whatsapp': 'Número do WhatsApp',
-    'eu_concordo_em_receber_comunicações': 'Concordo em Receber Comunicações',
-    'phone_number': 'Telefone',
-    'inbox_url': 'URL Caixa de Entrada'
+COLUNAS_RENOMEADAS = {
+    "created_time": "Criado em",
+    "ad_id": "ID Anúncio",
+    "ad_name": "Nome Anúncio",
+    "adset_id": "ID Conjunto de Anúncios",
+    "adset_name": "Nome do Conjunto de Anúncios",
+    "campaign_id": "ID da Campanha",
+    "campaign_name": "Nome da Campanha",
+    "form_id": "ID do Formulário",
+    "form_name": "Nome do Formulário",
+    "is_organic": "É Orgânico",
+    "platform": "Plataforma",
+    "full_name": "nome_completo",
+    "email": "email",
+    "numero_do_whatsapp": "numero_do_whatsapp",
+    "eu_concordo_em_receber_comunicacoes": "Concordo em Receber Comunicações",
+    "phone_number": "telefone",
+    "inbox_url": "URL Caixa de Entrada",
 }
-# renomenar as colunas do DataFrame
-df.rename(columns=dicionário_colunas, inplace=True)
-
-df['Criado em'] = pd.to_datetime(df['Criado em'], format='ISO8601').dt.date
-
-df['Telefone'] = df['Telefone'].astype(str).str.replace(r'\D', '', regex=True)
 
 
-df.to_excel('novos_leads.xlsx', index=False)
+def _normalizar(texto: str) -> str:
+    texto = unicodedata.normalize("NFKD", str(texto))
+    texto = texto.encode("ascii", "ignore").decode("ascii")
+    return texto.strip().lower().replace(" ", "_")
+
+def normalizar_colunas(colunas: list) -> list:
+    colunas_limpas = [str(coluna).strip().lower().replace(" ", "_") for coluna in colunas]
+
+    corresp_colunas = {
+         "numero_do_whatsapp": "telefone",
+         "celular": "telefone"
+    }
+     
+
+    return [corresp_colunas.get(col, col) for col in colunas_limpas]
 
 
-# apagar os arquivos CSV baixados
-for arquivo in arquivos_csv:
-    caminho_arquivo = os.path.join(caminho_diretorio, arquivo)
-    os.remove(caminho_arquivo)
+def obter_unidadeform(nome_formulario: object) -> object:
+    if pd.isna(nome_formulario):
+        return pd.NA
+
+    nome_normalizado = _normalizar(str(nome_formulario))
+    unidades = (
+        ("lorena", "Lorena"),
+        ("canaa", "Canaã"),
+        ("itabirito", "Itabirito"),
+        ("altamira", "Altamira"),
+    )
+    unidade_encontrada = next(
+        (
+            nome_exibicao
+            for termo, nome_exibicao in unidades
+            if termo in nome_normalizado
+        ),
+        None,
+    )
+
+    if unidade_encontrada is None:
+        return pd.NA
+
+    return (
+        f"Medicina {unidade_encontrada}"
+        if "medicina" in nome_normalizado
+        else unidade_encontrada
+    )
+
+
+def obter_origem_formulario(nome_formulario: object) -> object:
+    if pd.isna(nome_formulario):
+        return pd.NA
+
+    nome_normalizado = _normalizar(str(nome_formulario))
+    mapeamento = (
+        ("medicina", "Medicina - Formulário Meta"),
+        ("to", "TO - Formulário Meta"),
+        ("arquitetura", "ARQ - Formulário Meta"),
+        ("agronomia", "AGR - Formulário Meta"),
+    )
+
+    for palavra, origem in mapeamento:
+        padrao = rf"(?<![a-z0-9]){re.escape(palavra)}(?![a-z0-9])"
+        if re.search(padrao, nome_normalizado):
+            return origem
+
+    return pd.NA
+
+
+
+def consolidar_arquivos(
+    input_dir: Path | str = "datasets",
+    output_file: Path | str = "novos_leads.xlsx",
+    limpar_csvs: bool = False,
+) -> Path:
+    input_path = Path(input_dir)
+    output_path = Path(output_file)
+
+    if not input_path.exists():
+        raise FileNotFoundError(f"Diretório de entrada não encontrado: {input_path}")
+
+    arquivos_csv = sorted(input_path.glob("*.csv"))
+    if not arquivos_csv:
+        raise FileNotFoundError(f"Nenhum arquivo CSV encontrado em {input_path}")
+
+    dfs: list[pd.DataFrame] = []
+
+    for arquivo in arquivos_csv:
+        df = pd.read_csv(arquivo, sep="\t", encoding="utf-16")
+        rename_map = {
+            coluna: COLUNAS_RENOMEADAS[_normalizar(coluna)]
+            for coluna in df.columns
+            if _normalizar(coluna) in COLUNAS_RENOMEADAS
+        }
+        df = df.rename(columns=rename_map)
+
+        df.columns  = normalizar_colunas(df.columns)
+        dfs.append(df)
+
+    consolidado = pd.concat(dfs, ignore_index=True)
+
+
+    # filtrando colunas para importar
+    colunas_filtro = ['nome_completo', 'email', 'telefone', 'nome_do_formulário']
+    consolidado = consolidado[colunas_filtro]
+
+    consolidado['nome_do_formulário'] =  consolidado['nome_do_formulário'].str.lower()
+    
+   
+    consolidado["unidadeform"] = consolidado[colunas_filtro[3]].apply(
+        obter_unidadeform
+    )
+    consolidado["Landing Page ou Formulário de Origem"] = consolidado[
+        colunas_filtro[3]
+    ].apply(obter_origem_formulario)
+
+    if "Criado em" in consolidado.columns:
+        consolidado["Criado em"] = pd.to_datetime(
+            consolidado["Criado em"], errors="coerce"
+        ).dt.date
+
+    if "telefone" in consolidado.columns:
+        consolidado["telefone"] = consolidado["telefone"].astype(str).str.replace(
+            r"\D",
+            "",
+            regex=True,
+        )
+    colunas_final = {
+        'nome_completo': 'Nome Completo',
+        'email': 'Email',
+        'telefone': 'Telefone Celular',
+        'unidadeform': 'Unidadeform (crmeduc_unidadeform)'
+    }
+    consolidado = consolidado.rename(columns= colunas_final)
+
+    consolidado.to_excel(output_path, index=False)
+
+    
+
+    if limpar_csvs:
+        for arquivo in arquivos_csv:
+            arquivo.unlink(missing_ok=True)
+
+    return output_path
