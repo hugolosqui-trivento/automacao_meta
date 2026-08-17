@@ -18,11 +18,11 @@ COLUNAS_RENOMEADAS = {
     "form_name": "Nome do Formulário",
     "is_organic": "É Orgânico",
     "platform": "Plataforma",
-    "full_name": "Nome Completo",
-    "email": "E-mail",
-    "numero_do_whatsapp": "Número do WhatsApp",
+    "full_name": "nome_completo",
+    "email": "email",
+    "numero_do_whatsapp": "numero_do_whatsapp",
     "eu_concordo_em_receber_comunicacoes": "Concordo em Receber Comunicações",
-    "phone_number": "Telefone",
+    "phone_number": "telefone",
     "inbox_url": "URL Caixa de Entrada",
 }
 
@@ -32,11 +32,53 @@ def _normalizar(texto: str) -> str:
     texto = texto.encode("ascii", "ignore").decode("ascii")
     return texto.strip().lower().replace(" ", "_")
 
+def normalizar_colunas(colunas: list) -> list:
+    colunas_limpas = [str(coluna).strip().lower().replace(" ", "_") for coluna in colunas]
+
+    corresp_colunas = {
+         "numero_do_whatsapp": "telefone",
+         "celular": "telefone"
+    }
+     
+
+    return [corresp_colunas.get(col, col) for col in colunas_limpas]
+
+
+def obter_unidadeform(nome_formulario: object) -> object:
+    if pd.isna(nome_formulario):
+        return pd.NA
+
+    nome_normalizado = _normalizar(str(nome_formulario))
+    unidades = (
+        ("lorena", "Lorena"),
+        ("canaa", "Canaã"),
+        ("itabirito", "Itabirito"),
+        ("altamira", "Altamira"),
+    )
+    unidade_encontrada = next(
+        (
+            nome_exibicao
+            for termo, nome_exibicao in unidades
+            if termo in nome_normalizado
+        ),
+        None,
+    )
+
+    if unidade_encontrada is None:
+        return pd.NA
+
+    return (
+        f"Medicina {unidade_encontrada}"
+        if "medicina" in nome_normalizado
+        else unidade_encontrada
+    )
+
+
 
 def consolidar_arquivos(
     input_dir: Path | str = "datasets",
     output_file: Path | str = "novos_leads.xlsx",
-    limpar_csvs: bool = True,
+    limpar_csvs: bool = False,
 ) -> Path:
     input_path = Path(input_dir)
     output_path = Path(output_file)
@@ -58,17 +100,31 @@ def consolidar_arquivos(
             if _normalizar(coluna) in COLUNAS_RENOMEADAS
         }
         df = df.rename(columns=rename_map)
+
+        df.columns  = normalizar_colunas(df.columns)
         dfs.append(df)
 
     consolidado = pd.concat(dfs, ignore_index=True)
+
+
+    # filtrando colunas para importar
+    colunas_filtro = ['nome_completo', 'email', 'telefone', 'nome_do_formulário']
+    consolidado = consolidado[colunas_filtro]
+
+    consolidado['nome_do_formulário'] =  consolidado['nome_do_formulário'].str.lower()
+    
+   
+    consolidado["unidadeform"] = consolidado[colunas_filtro[3]].apply(
+        obter_unidadeform
+    )
 
     if "Criado em" in consolidado.columns:
         consolidado["Criado em"] = pd.to_datetime(
             consolidado["Criado em"], errors="coerce"
         ).dt.date
 
-    if "Telefone" in consolidado.columns:
-        consolidado["Telefone"] = consolidado["Telefone"].astype(str).str.replace(
+    if "telefone" in consolidado.columns:
+        consolidado["telefone"] = consolidado["telefone"].astype(str).str.replace(
             r"\D",
             "",
             regex=True,
