@@ -153,8 +153,17 @@ def consolidar_arquivos(
             "",
             regex=True,
         )
+    colunas_final = {
+        'nome_completo': 'Nome Completo',
+        'email': 'Email',
+        'telefone': 'Telefone Celular',
+        'unidadeform': 'Unidadeform (crmeduc_unidadeform)'
+    }
+    consolidado = consolidado.rename(columns= colunas_final)
 
     consolidado.to_excel(output_path, index=False)
+
+    
 
     if limpar_csvs:
         for arquivo in arquivos_csv:
