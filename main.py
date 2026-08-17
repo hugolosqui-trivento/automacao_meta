@@ -39,8 +39,8 @@ def main() -> None:
     downloads_dir = Path(args.downloads)
     output_file = Path(args.output)
 
-    # arquivos = baixar_formularios(output_dir=downloads_dir, headless=args.headless)
-    # print(f"{len(arquivos)} arquivo(s) baixado(s).")
+    arquivos = baixar_formularios(output_dir=downloads_dir, headless=args.headless)
+    print(f"{len(arquivos)} arquivo(s) baixado(s).")
 
     planilha = consolidar_arquivos(input_dir=downloads_dir, output_file=output_file)
     print(f"Arquivo final gerado em: {planilha.resolve()}")
