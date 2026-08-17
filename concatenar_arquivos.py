@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 import unicodedata
 from pathlib import Path
 
@@ -74,6 +75,26 @@ def obter_unidadeform(nome_formulario: object) -> object:
     )
 
 
+def obter_origem_formulario(nome_formulario: object) -> object:
+    if pd.isna(nome_formulario):
+        return pd.NA
+
+    nome_normalizado = _normalizar(str(nome_formulario))
+    mapeamento = (
+        ("medicina", "Medicina - Formulário Meta"),
+        ("to", "TO - Formulário Meta"),
+        ("arquitetura", "ARQ - Formulário Meta"),
+        ("agronomia", "AGR - Formulário Meta"),
+    )
+
+    for palavra, origem in mapeamento:
+        padrao = rf"(?<![a-z0-9]){re.escape(palavra)}(?![a-z0-9])"
+        if re.search(padrao, nome_normalizado):
+            return origem
+
+    return pd.NA
+
+
 
 def consolidar_arquivos(
     input_dir: Path | str = "datasets",
@@ -117,6 +138,9 @@ def consolidar_arquivos(
     consolidado["unidadeform"] = consolidado[colunas_filtro[3]].apply(
         obter_unidadeform
     )
+    consolidado["Landing Page ou Formulário de Origem"] = consolidado[
+        colunas_filtro[3]
+    ].apply(obter_origem_formulario)
 
     if "Criado em" in consolidado.columns:
         consolidado["Criado em"] = pd.to_datetime(
