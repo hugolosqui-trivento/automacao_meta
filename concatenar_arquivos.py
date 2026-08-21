@@ -85,6 +85,7 @@ def obter_origem_formulario(nome_formulario: object) -> object:
         ("to", "TO - Formulário Meta"),
         ("arquitetura", "ARQ - Formulário Meta"),
         ("agronomia", "AGR - Formulário Meta"),
+        ("wpp", "Whatsapp - Formulário Meta"),
     )
 
     for palavra, origem in mapeamento:
