@@ -35,7 +35,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\arthu\OneDrive\Documentos\GitHub\automacao_meta\.venv"
+VIRTUAL_ENV="C:\Users\User\Documents\GitHub\automacao_meta\.venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
