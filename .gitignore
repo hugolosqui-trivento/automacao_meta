@@ -1,1 +1,12 @@
+
 .venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+
+.env
+.env.*
+
+# Dados e credenciais locais
+cookies.json
