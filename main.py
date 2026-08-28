@@ -45,10 +45,8 @@ def main() -> None:
     planilha = consolidar_arquivos(input_dir=downloads_dir, output_file=output_file)
     print(f"Arquivo final gerado em: {planilha.resolve()}")
 
-    # apagar arquivos em datasets após comando
-    input("Pressione Enter para apagar os arquivos baixados em 'datasets'...")
-    for arquivo in downloads_dir.glob("*.csv"):
-        arquivo.unlink()
+   
+    
 
 if __name__ == "__main__":
     main()
