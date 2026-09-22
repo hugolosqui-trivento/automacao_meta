@@ -95,7 +95,18 @@ def obter_origem_formulario(nome_formulario: object) -> object:
 
     return pd.NA
 
+def obter_intake(nome_formulario):
+    if pd.isna(nome_formulario):
+        return None
+    nome_normalizado = _normalizar(str(nome_formulario))
 
+    if nome_normalizado.str.contains("2027"):
+        return "2027/1"
+
+    else:
+        return "2026/2"
+
+    
 
 def consolidar_arquivos(
     input_dir: Path | str = "datasets",
@@ -143,6 +154,9 @@ def consolidar_arquivos(
         colunas_filtro[3]
     ].apply(obter_origem_formulario)
 
+    consolidado["intake"] = consolidado[colunas_filtro[3]].apply(obter_intake)
+
+    
     if "Criado em" in consolidado.columns:
         consolidado["Criado em"] = pd.to_datetime(
             consolidado["Criado em"], errors="coerce"
