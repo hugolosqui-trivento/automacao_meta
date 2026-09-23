@@ -100,7 +100,7 @@ def obter_intake(nome_formulario):
         return None
     nome_normalizado = _normalizar(str(nome_formulario))
 
-    if nome_normalizado.str.contains("2027"):
+    if '2027' in nome_normalizado:
         return "2027/1"
 
     else:
