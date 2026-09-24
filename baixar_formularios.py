@@ -5,7 +5,7 @@ import re
 from pathlib import Path
 from time import sleep
 
-from playwright.sync_api import Playwright, sync_playwright
+from playwright.sync_api import Page, Playwright, sync_playwright
 
 
 LOGIN_URL = (
@@ -33,6 +33,21 @@ def _download_nome(prefixo: str, indice: int, nome_original: str) -> str:
     return f"{prefixo}_{indice:02d}_{nome_original}"
 
 
+def _selecionar_pagina(page: Page, nome_pagina: str) -> None:
+    seletor_compacto = page.get_by_role("button", name="Pressable")
+    seletor_compacto.hover()
+
+    # O Meta substitui o botão compacto por um combobox durante o hover.
+    # As classes CSS desse controle são geradas e mudam com frequência.
+    page.get_by_role("combobox").click()
+    page.get_by_role(
+        "gridcell",
+        name=re.compile(rf"^{re.escape(NOME_DA_CONTA)}(?:\s|$)"),
+    ).click()
+    page.get_by_role("gridcell", name=nome_pagina).click(no_wait_after=True)
+    page.get_by_role("button", name="Baixar").first.wait_for(state="visible")
+
+
 def run(playwright: Playwright, output_dir: Path, headless: bool = False) -> list[Path]:
     output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -56,17 +71,7 @@ def run(playwright: Playwright, output_dir: Path, headless: bool = False) -> lis
     page.get_by_role("radio", name="Este trimestre").check()
     page.get_by_role("button", name="Aplicar").click()
     for pagina in NOMES_PAGINAS:
-        
-
-        # acrescentar um filtro de DATA
-        page.get_by_role("button", name="Pressable").hover()
-        page.locator(
-            ".x6s0dn4.x78zum5.x13fuv20.x18b5jzi.x1q0q8m5.x1t7ytsu.x178xt8z.x1lun4ml"
-            ".xso031l.xpilrb4.xwebqov.x1x9jw1y.xrsgblv.xceihxd.xjwep3j.x1t39747"
-            ".x1wcsgtt.x1pczhz8.x1gzqxud.xbsr9hj.xm7lytj"
-        ).click()
-        page.locator("#north-star-scrollable-area").get_by_text(NOME_DA_CONTA).click()
-        page.get_by_role("radio", name=pagina).click()
+        _selecionar_pagina(page, pagina)
 
         sleep(10)
 
@@ -95,7 +100,7 @@ def run(playwright: Playwright, output_dir: Path, headless: bool = False) -> lis
     return arquivos_baixados
 
 
-def baixar_formularios(output_dir: Path | str = "datasets", headless: bool = False) -> list[Path]:
+def baixar_formularios(output_dir: Path | str = "dataset", headless: bool = False) -> list[Path]:
     destino = Path(output_dir)
     with sync_playwright() as playwright:
         return run(playwright, destino, headless=headless)

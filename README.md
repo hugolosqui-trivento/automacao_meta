@@ -23,7 +23,7 @@ Na primeira execução, o app:
 ```bash
 python main.py --headless
 python main.py --output saida/novos_leads.xlsx
-python main.py --downloads datasets
+python main.py --downloads dataset
 ```
 
 ## Estrutura
@@ -36,4 +36,4 @@ python main.py --downloads datasets
 ## Observações
 
 - O login no Meta ainda pode exigir autenticação manual na primeira vez.
-- Os CSVs baixados são apagados após a consolidação, para evitar duplicidade em execuções seguintes.
+- Os CSVs baixados são preservados em `dataset/` após a consolidação.

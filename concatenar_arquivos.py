@@ -109,9 +109,9 @@ def obter_intake(nome_formulario):
     
 
 def consolidar_arquivos(
-    input_dir: Path | str = "datasets",
+    input_dir: Path | str = "dataset",
     output_file: Path | str = "novos_leads.xlsx",
-    limpar_csvs: bool = True,
+    limpar_csvs: bool = False,
 ) -> Path:
     input_path = Path(input_dir)
     output_path = Path(output_file)
@@ -181,8 +181,7 @@ def consolidar_arquivos(
     
 
     if limpar_csvs:
-        # apagar arquivos em datasets após comando
-        input("Pressione Enter para apagar os arquivos baixados em 'datasets'...")
+        input(f"Pressione Enter para apagar os arquivos baixados em '{input_path}'...")
         for arquivo in arquivos_csv:
             arquivo.unlink(missing_ok=True)
 

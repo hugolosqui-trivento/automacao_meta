@@ -1,0 +1,214 @@
+- generic [ref=f2e12]:
+  - generic [ref=f2e21]:
+    - generic [ref=f2e22]:
+      - generic [ref=f2e23]:
+        - heading "Formulários de anúncios de lead" [level=1] [ref=f2e24]
+        - generic [ref=f2e25]: Gerencie formulários e conecte seu software de CRM para anúncios de lead.
+      - toolbar [ref=f2e27]:
+        - button "Criar formulário" [ref=f2e29] [cursor=pointer]
+        - button [ref=f2e35] [cursor=pointer]:
+          - img "Facebook" [ref=f2e43]
+    - generic [ref=f2e47]:
+      - generic [ref=f2e50]:
+        - generic [ref=f2e51]:
+          - heading [level=4] [ref=f2e61]
+          - button "Fechar" [ref=f2e69] [cursor=pointer]
+        - generic [ref=f2e79]:
+          - generic [ref=f2e80]: Compartilhe informações de leads com a Meta por meio da API de Conversões e, em seguida, use a meta de desempenho “Maximizar o número de leads qualificados”.
+          - generic [ref=f2e81]:
+            - button [ref=f2e83] [cursor=pointer]:
+              - generic [ref=f2e90]:
+                - heading "HubSpot via Zapier" [level=3] [ref=f2e95]
+                - generic [ref=f2e98]:
+                  - generic [ref=f2e99]:
+                    - text: Tenha 100.000 mil tarefas gratuitas de Enviar evento de funil por mês durante 6 meses quando conectar o Zapier. As quantidades são limitadas.
+                    - link "Aplicam-se os termos do Zapier" [ref=f2e100]:
+                      - /url: https://l.facebook.com/l.php?u=https%3A%2F%2Fhelp.zapier.com%2Fhc%2Fen-us%2Farticles%2F37500885530893-Limited-time-offer-2-000-free-Facebook-Conversions-tasks-per-month-for-6-months%3Ffbclid%3DIwZXh0bgNhZW0CMTAAcGRvZgRicmlkETFtRTc4OUtQaVZ4OEV6dTV0c3J0YwZhcHBfaWQPNTE0NzcxNTY5MjI4MDYxAAEeI2fhaP8JRle_7DWhVN19lvY6JlyDV2R3YpQnWfIVJQ5Yg4BQ3JkZXT3qAhA_aem_-q5MKQ1T91yZRL1NBdKxBg&h=AUBhBimEbqQ98fF1uZzR6i5soSbWNyh-hqaNuWSRH9YOqKPlNVYCF16c3GpFPp7zo6vaaL_wucIU3QdzYsNuQb3poFilLVOJ2IxnQBFLO2461mc4P3OegpJHHNNZvs4c790EQQ
+                  - generic [ref=f2e101]:
+                    - generic [ref=f2e102]: Configuração no Facebook
+                    - generic [ref=f2e104]: Sem codificação
+            - button [ref=f2e107] [cursor=pointer]:
+              - generic [ref=f2e114]:
+                - heading "HubSpot" [level=3] [ref=f2e119]
+                - generic [ref=f2e122]:
+                  - generic [ref=f2e123]:
+                    - text: Conexão direta sem nenhum custo adicional se você tiver o nível inicial ou superior.
+                    - link "Saiba mais" [ref=f2e124]:
+                      - /url: https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DjRX1SAzq_Ag%26fbclid%3DIwZXh0bgNhZW0CMTAAcGRvZgRicmlkETFtRTc4OUtQaVZ4OEV6dTV0c3J0YwZhcHBfaWQPNTE0NzcxNTY5MjI4MDYxAAEesJVTCSH_ghxfVe-GbuiPxSYqjG2KrdFCY8YoWhqwZEEmPNRbP7m8NGAgnmM_aem_R0_ZZGeAwSvVJr7gfq19vA&h=AUBhBimEbqQ98fF1uZzR6i5soSbWNyh-hqaNuWSRH9YOqKPlNVYCF16c3GpFPp7zo6vaaL_wucIU3QdzYsNuQb3poFilLVOJ2IxnQBFLO2461mc4P3OegpJHHNNZvs4c790EQQ
+                  - generic [ref=f2e125]:
+                    - generic [ref=f2e126]: Conta gratuita
+                    - generic [ref=f2e128]: Sem codificação
+            - button [ref=f2e131] [cursor=pointer]:
+              - generic [ref=f2e138]:
+                - heading "HubSpot via Stape" [level=3] [ref=f2e143]
+                - generic [ref=f2e146]:
+                  - generic [ref=f2e147]:
+                    - text: A Stape é uma parceira especializada em rastreamento do lado do servidor.
+                    - link "Saiba mais" [ref=f2e148]:
+                      - /url: https://l.facebook.com/l.php?u=https%3A%2F%2Fyoutu.be%2FiWTYkFef3fk%3Ffbclid%3DIwZXh0bgNhZW0CMTAAcGRvZgRicmlkETFtRTc4OUtQaVZ4OEV6dTV0c3J0YwZhcHBfaWQPNTE0NzcxNTY5MjI4MDYxAAEesJVTCSH_ghxfVe-GbuiPxSYqjG2KrdFCY8YoWhqwZEEmPNRbP7m8NGAgnmM_aem_R0_ZZGeAwSvVJr7gfq19vA&h=AUBhBimEbqQ98fF1uZzR6i5soSbWNyh-hqaNuWSRH9YOqKPlNVYCF16c3GpFPp7zo6vaaL_wucIU3QdzYsNuQb3poFilLVOJ2IxnQBFLO2461mc4P3OegpJHHNNZvs4c790EQQ
+                  - generic [ref=f2e149]:
+                    - generic [ref=f2e150]: A partir de US$ 10/mês
+                    - generic [ref=f2e152]: Configuração em 15 minutos
+          - link "Começar" [disabled] [ref=f2e154]
+      - generic [ref=f2e162]:
+        - generic [ref=f2e165]:
+          - group [ref=f2e166]:
+            - link "Formulários" [ref=f2e167] [cursor=pointer]:
+              - /url: /latest/instant_forms/forms?asset_id=1159876783867607
+            - link "Rascunhos de formulário" [ref=f2e171] [cursor=pointer]:
+              - /url: /latest/instant_forms/draft_forms?asset_id=1159876783867607
+            - link "Configuração do CRM" [ref=f2e175] [cursor=pointer]:
+              - /url: /latest/instant_forms/crm_setup?asset_id=1159876783867607
+          - generic [ref=f2e179]:
+            - button "Pesquisar" [ref=f2e180] [cursor=pointer]
+            - 'button "Filtros: 1" [ref=f2e188] [cursor=pointer]'
+            - button "Ações" [disabled] [ref=f2e196]
+        - grid "Formulários" [ref=f2e212]:
+          - rowgroup [ref=f2e213]:
+            - row [ref=f2e214]:
+              - columnheader [ref=f2e215]:
+                - heading [level=4] [ref=f2e219]:
+                  - checkbox "Tudo" [ref=f2e223] [cursor=pointer]
+              - columnheader [ref=f2e227]:
+                - heading "Nome" [level=4] [ref=f2e231]
+              - columnheader [ref=f2e232]:
+                - heading "Status" [level=4] [ref=f2e236]
+              - columnheader [ref=f2e237]:
+                - heading "Criado" [level=4] [ref=f2e241]
+              - columnheader [ref=f2e242]:
+                - heading "Número de leads" [level=4] [ref=f2e246]
+              - columnheader [ref=f2e247]:
+                - heading "Compartilhamento" [level=4] [ref=f2e251]
+              - columnheader [ref=f2e252]:
+                - heading "Cadastros" [level=4] [ref=f2e256]
+              - columnheader [ref=f2e257]:
+                - heading "Turbinamento" [level=4] [ref=f2e261]
+          - rowgroup [ref=f2e262]:
+            - row [ref=f2e592] [cursor=pointer]:
+              - gridcell [ref=f2e264]:
+                - button [ref=f2e266]:
+                  - 'checkbox "Nome do formulário: Canaã - Regulares | Arquitetura 08/2026" [ref=f2e271]'
+              - gridcell "Canaã - Regulares | Arquitetura 08/2026" [ref=f2e272]
+              - gridcell "Ativo" [ref=f2e278]
+              - gridcell "13 de ago de 2026 às 18:09" [ref=f2e284]
+              - gridcell "27 0 expirados" [ref=f2e290]:
+                - generic [ref=f2e294]:
+                  - generic [ref=f2e295]: "27"
+                  - generic [ref=f2e296]: 0 expirados
+              - gridcell "Aberto" [ref=f2e297]
+              - gridcell [ref=f2e299]:
+                - button "Baixar" [ref=f2e301]
+              - gridcell [ref=f2e593]:
+                - button "Turbinar" [ref=f2e594]
+            - row [ref=f2e599] [cursor=pointer]:
+              - gridcell [ref=f2e316]:
+                - button [ref=f2e318]:
+                  - 'checkbox "Nome do formulário: Canaã - Regulares | Agronomia 08/2026" [ref=f2e323]'
+              - gridcell "Canaã - Regulares | Agronomia 08/2026" [ref=f2e324]
+              - gridcell "Ativo" [ref=f2e330]
+              - gridcell "13 de ago de 2026 às 18:06" [ref=f2e336]
+              - gridcell "267 0 expirados" [ref=f2e342]:
+                - generic [ref=f2e346]:
+                  - generic [ref=f2e347]: "267"
+                  - generic [ref=f2e348]: 0 expirados
+              - gridcell "Aberto" [ref=f2e349]
+              - gridcell [ref=f2e351]:
+                - button "Baixar" [ref=f2e353]
+              - gridcell [ref=f2e600]:
+                - button "Turbinar" [ref=f2e601]
+            - row [ref=f2e606] [cursor=pointer]:
+              - gridcell [ref=f2e368]:
+                - button [ref=f2e370]:
+                  - 'checkbox "Nome do formulário: Canaã - Regulares | TO 07/2026" [ref=f2e375]'
+              - gridcell "Canaã - Regulares | TO 07/2026" [ref=f2e376]
+              - gridcell "Ativo" [ref=f2e382]
+              - gridcell "3 de ago de 2026 às 14:08" [ref=f2e388]
+              - gridcell "262 0 expirados" [ref=f2e394]:
+                - generic [ref=f2e398]:
+                  - generic [ref=f2e399]: "262"
+                  - generic [ref=f2e400]: 0 expirados
+              - gridcell "Restrito" [ref=f2e401]
+              - gridcell [ref=f2e403]:
+                - button "Baixar" [ref=f2e405]
+              - gridcell [ref=f2e607]:
+                - button "Turbinar" [ref=f2e608]
+  - generic [ref=f2e424]:
+    - generic [ref=f2e426]:
+      - button "Meta Business Suite" [ref=f2e427] [cursor=pointer]
+      - button "Pressable" [ref=f2e438] [cursor=pointer]:
+        - generic [ref=f2e441]:
+          - img "Instagram" [ref=f2e446]
+          - img "Facebook" [ref=f2e451]
+    - navigation "Links" [ref=f2e456]:
+      - list [ref=f2e458]:
+        - generic [ref=f2e459]:
+          - listitem [ref=f2e463]:
+            - generic [ref=f2e465]:
+              - link "Página inicial" [ref=f2e466] [cursor=pointer]:
+                - /url: https://business.facebook.com/latest/home?business_id=928947610840031&asset_id=1159876783867607
+              - generic: Página inicial
+          - listitem [ref=f2e471]:
+            - generic [ref=f2e473]:
+              - link "Notificações" [ref=f2e474] [cursor=pointer]
+              - generic: Notificações
+          - listitem [ref=f2e480]:
+            - generic [ref=f2e482]:
+              - link "Gerenciador de Anúncios" [ref=f2e483] [cursor=pointer]
+              - generic: Gerenciador de Anúncios
+          - listitem [ref=f2e488]:
+            - generic [ref=f2e490]:
+              - link "Caixa de Entrada" [ref=f2e491] [cursor=pointer]:
+                - /url: https://business.facebook.com/latest/inbox?business_id=928947610840031&asset_id=1159876783867607
+              - generic: Caixa de Entrada
+          - listitem [ref=f2e496]:
+            - generic [ref=f2e498]:
+              - link "Central de Leads" [ref=f2e499] [cursor=pointer]:
+                - /url: https://business.facebook.com/latest/leads_center?business_id=928947610840031&asset_id=1159876783867607
+              - generic: Central de Leads
+          - listitem [ref=f2e505]:
+            - generic [ref=f2e507]:
+              - link "Conteúdo" [ref=f2e508] [cursor=pointer]:
+                - /url: https://business.facebook.com/latest/posts?business_id=928947610840031&asset_id=1159876783867607
+              - generic: Conteúdo
+          - listitem [ref=f2e513]:
+            - generic [ref=f2e515]:
+              - link "Creator Marketing" [ref=f2e516] [cursor=pointer]:
+                - /url: https://business.facebook.com/latest/partnership_ads_hub?business_id=928947610840031&asset_id=1159876783867607&pa_redirect_perf_unit=1389357719920250
+              - generic: Creator Marketing
+          - listitem [ref=f2e522]:
+            - generic [ref=f2e524]:
+              - link "Anúncios" [ref=f2e525] [cursor=pointer]:
+                - /url: https://business.facebook.com/latest/ad_center/ads_summary?business_id=928947610840031&asset_id=1159876783867607
+              - generic: Anúncios
+          - listitem [ref=f2e531]:
+            - generic [ref=f2e533]:
+              - link "Insights" [ref=f2e534] [cursor=pointer]:
+                - /url: https://business.facebook.com/latest/insights?business_id=928947610840031&asset_id=1159876783867607
+              - generic: Insights
+          - listitem [ref=f2e539]:
+            - generic [ref=f2e541]:
+              - link "Monetização" [ref=f2e542] [cursor=pointer]:
+                - /url: https://business.facebook.com/latest/monetization?business_id=928947610840031&asset_id=1159876783867607
+              - generic: Monetização
+          - listitem [ref=f2e547]:
+            - generic [ref=f2e549]:
+              - link "Todas as ferramentas" [ref=f2e550] [cursor=pointer]
+              - generic: Todas as ferramentas
+          - button "Editar navegação da barra lateral" [ref=f2e554] [cursor=pointer]:
+            - generic [ref=f2e555]: Editar
+    - generic [ref=f2e562]:
+      - listitem [ref=f2e565]:
+        - generic [ref=f2e567]:
+          - link "Pesquisar" [ref=f2e568] [cursor=pointer]
+          - generic: Pesquisar
+      - navigation "Links" [ref=f2e570]:
+        - list [ref=f2e572]:
+          - listitem [ref=f2e576]:
+            - generic [ref=f2e578]:
+              - link "Configurações" [ref=f2e579] [cursor=pointer]:
+                - /url: https://business.facebook.com/latest/settings/business_users?business_id=928947610840031&asset_id=1159876783867607
+              - generic: Configurações
+      - listitem [ref=f2e587]:
+        - generic [ref=f2e589]:
+          - link "Ajuda" [ref=f2e590] [cursor=pointer]
+          - generic: Ajuda
