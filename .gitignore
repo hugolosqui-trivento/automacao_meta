@@ -8,5 +8,7 @@ __pycache__/
 .env
 .env.*
 
+#Dados dos formulários
+datasets/
 # Dados e credenciais locais
 cookies.json
