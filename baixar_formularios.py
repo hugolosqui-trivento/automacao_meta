@@ -21,6 +21,9 @@ NOMES_PAGINAS = [
     "Instagram Facebook Faculdade Alis de Itabirito , alis.itabirito Página do",
     "Instagram Facebook Serra Dourada Canaã dos Carajás , serradourada_canaa Página",
     "Instagram Facebook Faculdade Serra Dourada Unidade Lorena , serradouradalorena",
+    "Instagram Facebook Serra Dourada Lagoa Santa , serradouradalagoasanta Página do",
+    "Facebook GSA Educacional Pá",
+    "Instagram Facebook Serra Dourada Unidade Altamira , serradouradaaltamira Página"
 ]
 
 
