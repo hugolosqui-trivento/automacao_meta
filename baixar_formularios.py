@@ -76,7 +76,7 @@ def run(playwright: Playwright, output_dir: Path, headless: bool = False) -> lis
     for pagina in NOMES_PAGINAS:
         _selecionar_pagina(page, pagina)
 
-        sleep(10)
+        sleep(1)
 
         botoes_baixar = page.get_by_role("button", name="Baixar")
         print(f"Total de botões 'Baixar' encontrados para '{pagina}': {botoes_baixar.count()}")
@@ -94,9 +94,9 @@ def run(playwright: Playwright, output_dir: Path, headless: bool = False) -> lis
             download.save_as(str(destino))
             arquivos_baixados.append(destino)
 
-            sleep(2)
+            
             page.get_by_role("button", name="Fechar").nth(1).click()
-            sleep(1)
+            sleep(0.2)
 
     context.close()
     browser.close()
