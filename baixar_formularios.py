@@ -4,8 +4,17 @@ import os
 import re
 from pathlib import Path
 from time import sleep
+from urllib.parse import parse_qs, urlparse
 
-from playwright.sync_api import Page, Playwright, sync_playwright
+from playwright.sync_api import (
+    ElementHandle,
+    Error as PlaywrightError,
+    Locator,
+    Page,
+    Playwright,
+    TimeoutError as PlaywrightTimeoutError,
+    sync_playwright,
+)
 
 
 LOGIN_URL = (
@@ -36,7 +45,27 @@ def _download_nome(prefixo: str, indice: int, nome_original: str) -> str:
     return f"{prefixo}_{indice:02d}_{nome_original}"
 
 
+def _identidade_pagina(url: str) -> tuple[str | None, str | None]:
+    parametros = parse_qs(urlparse(url).query)
+    return (
+        parametros.get("asset_id", [None])[0],
+        parametros.get("business_id", [None])[0],
+    )
+
+
+def _aguardar_saida_tabela(tabela: ElementHandle) -> None:
+    try:
+        tabela.wait_for_element_state("hidden")
+    except PlaywrightError as erro:
+        # A navegação pode remover o nó durante a própria espera. Isso
+        # também significa que a tabela anterior já saiu da página.
+        if "Element is not attached to the DOM" not in str(erro):
+            raise
+
+
 def _selecionar_pagina(page: Page, nome_pagina: str) -> None:
+    identidade_anterior = _identidade_pagina(page.url)
+    tabela_anterior = page.get_by_role("grid", name="Formulários", exact=True).element_handle()
     seletor_compacto = page.get_by_role("button", name="Pressable")
     seletor_compacto.hover()
 
@@ -47,8 +76,35 @@ def _selecionar_pagina(page: Page, nome_pagina: str) -> None:
         "gridcell",
         name=re.compile(rf"^{re.escape(NOME_DA_CONTA)}(?:\s|$)"),
     ).click()
-    page.get_by_role("gridcell", name=nome_pagina).click(no_wait_after=True)
-    page.get_by_role("button", name="Baixar").first.wait_for(state="visible")
+    opcao = page.get_by_role("gridcell", name=nome_pagina)
+    ja_selecionada = opcao.get_by_role("radio").is_checked()
+    opcao.click()
+    if ja_selecionada:
+        page.get_by_role("combobox").click()
+    if not ja_selecionada:
+        page.wait_for_url(
+            lambda url: _identidade_pagina(url)[0] is not None
+            and _identidade_pagina(url) != identidade_anterior,
+            wait_until="domcontentloaded",
+        )
+        # A URL pode mudar antes de a tabela anterior sair da tela.
+        if tabela_anterior is not None:
+            _aguardar_saida_tabela(tabela_anterior)
+
+
+def _aguardar_botoes_baixar(page: Page, timeout: int = 30_000) -> Locator:
+    tabela = page.get_by_role("grid", name="Formulários", exact=True)
+    tabela.wait_for(state="visible")
+    botoes = tabela.get_by_role("button", name="Baixar", exact=True).filter(visible=True)
+    try:
+        botoes.first.wait_for(state="visible", timeout=timeout)
+    except PlaywrightTimeoutError:
+        # Só a ausência de downloads é tolerada; falhas de navegação/login
+        # ou uma tabela que continua carregando não são páginas vazias.
+        tabela.wait_for(state="visible")
+        page.get_by_role("progressbar").first.wait_for(state="hidden")
+        page.locator('[aria-busy="true"]').first.wait_for(state="hidden")
+    return botoes
 
 
 def run(playwright: Playwright, output_dir: Path, headless: bool = False) -> list[Path]:
@@ -73,15 +129,19 @@ def run(playwright: Playwright, output_dir: Path, headless: bool = False) -> lis
     page.get_by_role("button", name="Selecionar datas").click()
     page.get_by_role("radio", name="Este trimestre").check()
     page.get_by_role("button", name="Aplicar").click()
+
     for pagina in NOMES_PAGINAS:
         _selecionar_pagina(page, pagina)
 
-        sleep(1)
+        botoes_baixar = _aguardar_botoes_baixar(page)
+        total = botoes_baixar.count()
 
-        botoes_baixar = page.get_by_role("button", name="Baixar")
-        print(f"Total de botões 'Baixar' encontrados para '{pagina}': {botoes_baixar.count()}")
+        if total == 0:
+            print(f"Nenhum botão 'Baixar' encontrado para '{pagina}'. Pulando...")
+            continue
+        print(f"Total de botões 'Baixar' encontrados para '{pagina}': {total}")
 
-        for indice in range(botoes_baixar.count()):
+        for indice in range(total):
             botoes_baixar.nth(indice).click()
             page.get_by_role("button", name="Baixar novos leads").click()
 

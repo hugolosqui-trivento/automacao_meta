@@ -24,6 +24,7 @@ COLUNAS_RENOMEADAS = {
     "numero_do_whatsapp": "numero_do_whatsapp",
     "eu_concordo_em_receber_comunicacoes": "Concordo em Receber Comunicações",
     "phone_number": "telefone",
+    "whatsapp_number": "telefone",
     "inbox_url": "URL Caixa de Entrada",
 }
 
@@ -119,14 +120,14 @@ def consolidar_arquivos(
     if not input_path.exists():
         raise FileNotFoundError(f"Diretório de entrada não encontrado: {input_path}")
 
-    arquivos_csv = sorted(input_path.glob("*.csv"))
+    arquivos_csv = sorted(input_path.rglob("*.csv"))
     if not arquivos_csv:
         raise FileNotFoundError(f"Nenhum arquivo CSV encontrado em {input_path}")
 
     dfs: list[pd.DataFrame] = []
 
     for arquivo in arquivos_csv:
-        df = pd.read_csv(arquivo, sep="\t", encoding="utf-16")
+        df = pd.read_csv(arquivo, sep="\t", encoding="utf-16", dtype=str)
         rename_map = {
             coluna: COLUNAS_RENOMEADAS[_normalizar(coluna)]
             for coluna in df.columns
@@ -135,9 +136,17 @@ def consolidar_arquivos(
         df = df.rename(columns=rename_map)
 
         df.columns  = normalizar_colunas(df.columns)
+        # Alguns formulários têm mais de um campo de telefone.
+        if df.columns.duplicated().any():
+            df = df.T.groupby(level=0, sort=False).first().T
         dfs.append(df)
 
     consolidado = pd.concat(dfs, ignore_index=True)
+
+    # Um lead pode aparecer em mais de uma execução de download.
+    if "id" in consolidado.columns:
+        repetidos = consolidado["id"].notna() & consolidado["id"].duplicated()
+        consolidado = consolidado.loc[~repetidos].copy()
 
 
     # filtrando colunas para importar
@@ -163,7 +172,7 @@ def consolidar_arquivos(
         ).dt.date
 
     if "telefone" in consolidado.columns:
-        consolidado["telefone"] = consolidado["telefone"].astype(str).str.replace(
+        consolidado["telefone"] = consolidado["telefone"].fillna("").astype(str).str.replace(
             r"\D",
             "",
             regex=True,
