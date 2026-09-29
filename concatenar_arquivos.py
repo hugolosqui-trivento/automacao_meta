@@ -163,8 +163,8 @@ def consolidar_arquivos(
         colunas_filtro[3]
     ].apply(obter_origem_formulario)
 
-    consolidado["intake"] = consolidado[colunas_filtro[3]].apply(obter_intake)
-
+    # consolidado["intake"] = consolidado[colunas_filtro[3]].apply(obter_intake)
+    consolidado["intake"] = '2027/1'
     
     if "Criado em" in consolidado.columns:
         consolidado["Criado em"] = pd.to_datetime(
