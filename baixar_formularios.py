@@ -125,10 +125,10 @@ def run(playwright: Playwright, output_dir: Path, headless: bool = False) -> lis
 
     arquivos_baixados: list[Path] = []
     page.goto("https://business.facebook.com/latest/instant_forms/")
-    page.get_by_role("button", name="Filtros:").click()
-    page.get_by_role("button", name="Selecionar datas").click()
-    page.get_by_role("radio", name="Este trimestre").check()
-    page.get_by_role("button", name="Aplicar").click()
+    # page.get_by_role("button", name="Filtros:").click()
+    # # page.get_by_role("button", name="Selecionar datas").click()
+    # page.get_by_role("radio", name="Ativo").check()
+    # page.get_by_role("button", name="Aplicar").click()
 
     for pagina in NOMES_PAGINAS:
         _selecionar_pagina(page, pagina)
