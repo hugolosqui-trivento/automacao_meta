@@ -1,39 +1,46 @@
-# automacao-meta
+# Automação de leads do Meta
 
-App em Python para baixar os formulários do Meta, consolidar os CSVs e gerar o arquivo final `novos_leads.xlsx`.
+Este programa baixa os formulários de leads das páginas configuradas no Meta e reúne os dados em uma planilha Excel chamada `novos_leads.xlsx`.
+
+## Antes de começar
+
+- Use um computador com **Windows** e acesso à internet.
+- Instale o **Python 3.11 ou mais recente**. Durante a instalação, marque a opção **Add Python to PATH**, se ela aparecer.
+- Tenha acesso à conta do Meta usada para consultar os formulários. No primeiro uso, você precisará entrar nessa conta pelo navegador.
+
+Você não precisa instalar as bibliotecas do projeto manualmente. O programa faz isso na primeira execução, que pode demorar alguns minutos.
 
 ## Como executar
 
-1. Garanta que o Python 3.11 esteja instalado.
-2. Na raiz do projeto, execute:
+1. Clique em View na barra de opções superior
+2. Procure por terminal
+3. Confira se o Python está disponível:
 
-```bash
-python main.py
-```
+   ```powershell
+   python --version
+   ```
 
-Na primeira execução, o app:
+   O resultado deve mostrar `Python 3.11` ou uma versão mais recente. Se o comando não funcionar, tente `py --version`. Caso nenhum dos dois funcione, instale o Python e abra um novo terminal.
 
-1. Cria uma `.venv` local.
-2. Instala as dependências automaticamente.
-3. Baixa o Chromium do Playwright.
-4. Executa a automação e gera o Excel final.
+4. Execute o programa:
 
-## Opções
+   ```powershell
+   python main.py
+   ```
 
-```bash
-python main.py --headless
-python main.py --output saida/novos_leads.xlsx
-python main.py --downloads dataset
-```
+   Se você usou `py --version` no passo anterior, execute `py main.py`.
 
-## Estrutura
+5. Na primeira execução, aguarde a instalação automática dos componentes. Quando o navegador abrir, entre na sua conta do Meta. **Só depois de terminar o login**, volte ao terminal e pressione **Enter** quando aparecer a mensagem `Pressione Enter após autenticar manualmente...`.
+6. Aguarde o término da execução. O terminal mostrará `Arquivo final gerado em:` seguido do caminho da planilha.
 
-- `main.py`: ponto de entrada do app.
-- `bootstrap.py`: cria a venv e instala dependências automaticamente.
-- `baixar_formularios.py`: baixa os CSVs de leads.
-- `concatenar_arquivos.py`: consolida os CSVs em `novos_leads.xlsx`.
+A planilha `novos_leads.xlsx` fica na pasta do projeto. Os arquivos CSV baixados ficam em `dataset/`. Nas próximas execuções, basta repetir o passo 4; o programa tenta reutilizar a sessão salva em `cookies.json`. Se o Meta pedir login novamente, pode ser necessário autenticar de novo.
 
-## Observações
+7. Após enviar ao CRM e constar status "importação Completa", você pode fechar o vscode, ir ao github desktop, clicar em branch na barra superior e depois em "Discart all changes". Isso permite descartar os dados dos leads com segurança, já que eles já estão no CRM.
 
-- O login no Meta ainda pode exigir autenticação manual na primeira vez.
-- Os CSVs baixados são preservados em `dataset/` após a consolidação.
+## Cuidados ao executar novamente
+
+- Se a planilha `novos_leads.xlsx` estiver aberta no Excel, feche-a antes de executar o programa.
+
+- Uma nova execução substitui a planilha de saída com o mesmo nome.
+
+- O arquivo `cookies.json` contém dados da sua sessão no Meta. Não o compartilhe.
