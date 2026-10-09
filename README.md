@@ -25,7 +25,8 @@ Você não precisa instalar as bibliotecas do projeto manualmente. O programa fa
 4. Execute o programa:
 
    ```powershell
-   python main.py
+   python main.py -> uv run main.py
+
    ```
 
    Se você usou `py --version` no passo anterior, execute `py main.py`.
