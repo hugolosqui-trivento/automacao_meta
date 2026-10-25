@@ -3,7 +3,6 @@ from __future__ import annotations
 import os
 import re
 from pathlib import Path
-from time import sleep
 from urllib.parse import parse_qs, urlparse
 
 from playwright.sync_api import (
@@ -67,7 +66,19 @@ def _selecionar_pagina(page: Page, nome_pagina: str) -> None:
     identidade_anterior = _identidade_pagina(page.url)
     tabela_anterior = page.get_by_role("grid", name="Formulários", exact=True).element_handle()
     seletor_compacto = page.get_by_role("button", name="Pressable")
-    seletor_compacto.hover()
+    try:
+        seletor_compacto.hover(timeout=3_000)
+    except PlaywrightTimeoutError:
+        # O Meta pode exibir um aviso sobre localização por cima do seletor
+        # enquanto a página está carregando. Escape fecha essa camada.
+        aviso = page.locator(
+            '[data-surface="/bizweb:instant_forms/lib:GeoIllustrationModal"]'
+        )
+        if not aviso.is_visible():
+            raise
+        page.keyboard.press("Escape")
+        aviso.wait_for(state="hidden")
+        seletor_compacto.hover()
 
     # O Meta substitui o botão compacto por um combobox durante o hover.
     # As classes CSS desse controle são geradas e mudam com frequência.
@@ -105,6 +116,12 @@ def _aguardar_botoes_baixar(page: Page, timeout: int = 30_000) -> Locator:
         page.get_by_role("progressbar").first.wait_for(state="hidden")
         page.locator('[aria-busy="true"]').first.wait_for(state="hidden")
     return botoes
+
+
+def _fechar_dialogo_download(page: Page) -> None:
+    dialogo = page.get_by_role("dialog", name="Baixar leads")
+    dialogo.get_by_role("button", name="Fechar", exact=True).first.click()
+    dialogo.wait_for(state="hidden")
 
 
 def run(playwright: Playwright, output_dir: Path, headless: bool = False) -> list[Path]:
@@ -155,8 +172,7 @@ def run(playwright: Playwright, output_dir: Path, headless: bool = False) -> lis
             arquivos_baixados.append(destino)
 
             
-            page.get_by_role("button", name="Fechar").nth(1).click()
-            sleep(0.2)
+            _fechar_dialogo_download(page)
 
     context.close()
     browser.close()
