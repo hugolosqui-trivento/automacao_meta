@@ -153,7 +153,11 @@ def consolidar_arquivos(
     colunas_filtro = ['nome_completo', 'email', 'telefone', 'nome_do_formulário']
     consolidado = consolidado[colunas_filtro]
 
-    consolidado['nome_do_formulário'] =  consolidado['nome_do_formulário'].str.lower()
+    # Um CSV sem leads deixa esta coluna com dtype float; a conversão também
+    # permite gerar a planilha vazia sem falhar no acessador de strings.
+    consolidado['nome_do_formulário'] = (
+        consolidado['nome_do_formulário'].astype('string').str.lower()
+    )
     
    
     consolidado["unidadeform"] = consolidado[colunas_filtro[3]].apply(

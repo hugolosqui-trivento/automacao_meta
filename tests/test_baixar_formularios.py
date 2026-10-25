@@ -3,7 +3,11 @@ from unittest.mock import Mock
 
 from playwright.sync_api import Error, TimeoutError, sync_playwright
 
-from baixar_formularios import _aguardar_botoes_baixar, _aguardar_saida_tabela
+from baixar_formularios import (
+    _aguardar_botoes_baixar,
+    _aguardar_saida_tabela,
+    _fechar_dialogo_download,
+)
 
 
 class SaidaTabelaTest(unittest.TestCase):
@@ -85,6 +89,17 @@ class EsperaFormulariosTest(unittest.TestCase):
             </div>
         ''')
         self.assertEqual(_aguardar_botoes_baixar(self.page, timeout=200).count(), 0)
+
+    def test_fecha_dialogo_de_download_sem_clicar_no_botao_ao_fundo(self):
+        self.page.set_content('''
+            <button onclick="window.fechouFundo = true">Fechar</button>
+            <div role="dialog" aria-label="Baixar leads">
+                <button onclick="this.closest('[role=dialog]').remove()">Fechar</button>
+            </div>
+        ''')
+        _fechar_dialogo_download(self.page)
+        self.assertEqual(self.page.get_by_role("dialog").count(), 0)
+        self.assertFalse(self.page.evaluate("Boolean(window.fechouFundo)"))
 
 
 if __name__ == "__main__":
