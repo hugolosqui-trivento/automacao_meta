@@ -24,7 +24,7 @@ LOGIN_URL = (
     "&config_ref=biz_login_tool_flavor_mbs"
 )
 
-NOME_DA_CONTA = "Trivento Educação"
+NOME_DA_CONTA = "GSA - Trivento Educação"
 NOMES_PAGINAS = [
     "Facebook Serra Dourada Unidade Altamira Página do Facebook Owned by Faculdade",
     "Instagram Facebook Faculdade Alis de Itabirito , alis.itabirito Página do",
