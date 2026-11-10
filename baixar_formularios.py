@@ -65,24 +65,25 @@ def _aguardar_saida_tabela(tabela: ElementHandle) -> None:
 def _selecionar_pagina(page: Page, nome_pagina: str) -> None:
     identidade_anterior = _identidade_pagina(page.url)
     tabela_anterior = page.get_by_role("grid", name="Formulários", exact=True).element_handle()
-    seletor_compacto = page.get_by_role("button", name="Pressable")
-    try:
-        seletor_compacto.hover(timeout=3_000)
-    except PlaywrightTimeoutError:
-        # O Meta pode exibir um aviso sobre localização por cima do seletor
-        # enquanto a página está carregando. Escape fecha essa camada.
-        aviso = page.locator(
-            '[data-surface="/bizweb:instant_forms/lib:GeoIllustrationModal"]'
-        )
-        if not aviso.is_visible():
-            raise
-        page.keyboard.press("Escape")
-        aviso.wait_for(state="hidden")
-        seletor_compacto.hover()
+    seletor = page.get_by_role("combobox")
+    if not seletor.is_visible():
+        seletor_conta = page.get_by_role("button", name="Trocar de conta", exact=True)
+        try:
+            seletor_conta.click(timeout=3_000)
+        except PlaywrightTimeoutError:
+            # O Meta pode exibir um aviso sobre localização por cima do seletor
+            # enquanto a página está carregando. Escape fecha essa camada.
+            aviso = page.locator(
+                '[data-surface="/bizweb:instant_forms/lib:GeoIllustrationModal"]'
+            )
+            if not aviso.is_visible():
+                raise
+            page.keyboard.press("Escape")
+            aviso.wait_for(state="hidden")
+            seletor_conta.click()
+        seletor.wait_for(state="visible")
 
-    # O Meta substitui o botão compacto por um combobox durante o hover.
-    # As classes CSS desse controle são geradas e mudam com frequência.
-    page.get_by_role("combobox").click()
+    seletor.click()
     page.get_by_role(
         "gridcell",
         name=re.compile(rf"^{re.escape(NOME_DA_CONTA)}(?:\s|$)"),
